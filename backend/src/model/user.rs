@@ -1,4 +1,4 @@
-use schema::users;
+use utils::schema::users;
 
 #[derive(Debug, Serialize, Queryable)]
 pub struct User {

@@ -6,9 +6,9 @@ use diesel::prelude::*;
 use chrono::{DateTime,Utc};
 use bcrypt::{DEFAULT_COST, hash, verify};
 
-use schema;
-use db::DbExecutor;
-use model::{User,NewUser};
+use utils::schema;
+use model::db::DbExecutor;
+use model::user::{User,NewUser};
 
 pub struct UserInfo {
     pub email: String,

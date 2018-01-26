@@ -20,16 +20,15 @@ use actix::*;
 use actix_web::*;
 use std::env;
 
-mod user;
+mod api;
 mod model;
 mod handler;
-mod schema;
-mod db;
+mod utils;
 
 use http::header;
 use actix_web::middleware::cors;
-use db::DbExecutor;
-use user::{ State, name, info };
+use model::db::DbExecutor;
+use api::user::{ State, name, info };
 
 fn main() {
     ::std::env::set_var("RUST_LOG", "actix_web=info");

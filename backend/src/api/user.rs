@@ -1,9 +1,9 @@
 use actix::*;
 use actix_web::*;
 use std::path::Path;
-use db::DbExecutor;
+use model::db::DbExecutor;
 use futures::future::Future;
-use handler::UserInfo;
+use handler::user::UserInfo;
 
 pub struct State {
     pub db: SyncAddress<DbExecutor>,
