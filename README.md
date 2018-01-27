@@ -1,5 +1,5 @@
 # Rust-webapp-starter
-Rust-webapp written in actix-web with vuejs.
+Rust single page webapp written in actix-web with vuejs.
 
 ## start
 1 - first create a name 'webapp' postgresql database for this project.
