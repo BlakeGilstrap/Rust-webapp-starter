@@ -36,6 +36,7 @@ $ npm run build
 $ cd ..
 $ cargo run
 ```
+then open broswer 'http://localhost:8000/'
 
 ### Contribute
  
