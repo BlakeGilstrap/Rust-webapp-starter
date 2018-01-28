@@ -1,9 +1,9 @@
 # Rust-webapp-starter
 Rust single page webapp written in actix-web with vuejs.
-    - Rust Actix-web framework
-    - diesel, postgresql 
-    - SPA CORS JWT
-    - Vuejs Parcel-bundler
+- Rust Actix-web framework
+- diesel, postgresql 
+- SPA CORS JWT
+- Vuejs Parcel-bundler
 
 ## How To
     first create a name 'webapp' postgresql database for this project.
@@ -36,6 +36,7 @@ $ npm run build
 $ cd ..
 $ cargo run
 ```
+then open broswer 'http://localhost:8000/'
 
 ### Contribute
  
