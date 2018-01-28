@@ -1,11 +1,11 @@
 use diesel;
-use uuid;
 use actix::*;
 use actix_web::*;
 use diesel::prelude::*;
 use utils::token::verify_token;
 use chrono::{DateTime,Utc};
 use utils::token;
+use std::time::SystemTime;
 use bcrypt::{DEFAULT_COST, hash, verify};
 
 use utils::schema;
@@ -34,19 +34,18 @@ impl Handler<SignupUser> for DbExecutor {
     type Result = MessageResult<SignupUser>;
     fn handle(&mut self, signup_user: SignupUser, _: &mut Self::Context) -> Self::Result  {
         use self::schema::users::dsl::*;
-        let uuid = format!("{}", uuid::Uuid::new_v4());
         let hash_password = match hash(&signup_user.password, DEFAULT_COST) {
                 Ok(h) => h,
                 Err(_) => panic!()
         };
         let new_user = NewUser {
-                id: &uuid,
                 email: &signup_user.email,
                 username: &signup_user.username,
                 password: &hash_password,
+                created_at: SystemTime::now(),
         };        
         diesel::insert_into(users).values(&new_user).execute(&self.0).expect("Error inserting person");
-        let mut items = users.filter(id.eq(&uuid)).load::<User>(&self.0).expect("Error loading person");
+        let mut items = users.filter(id.eq(1)).load::<User>(&self.0).expect("Error loading person");
         
         Ok(items.pop().unwrap())
     }

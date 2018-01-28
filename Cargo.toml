@@ -11,23 +11,21 @@ path = "tests/lib.rs"
 serde = "^1.0.0"
 serde_derive = "^1.0.0"
 serde_json = "^1.0.0"
-diesel = { version = "^1.0.0", features = ["postgres","chrono","serde_json"] }
-r2d2-diesel = "^1.0.0"
+diesel = { version = "^1.0.0", features = ["postgres","chrono","serde_json", "r2d2"] }
 data-encoding = "2.1"
 num_cpus = "1.0"
 
-actix = "^0.4.0"
+actix = { git = "https://github.com/actix/actix" }
 actix-web = { git = "https://github.com/actix/actix-web" }
 http = "^0.1.0"
-r2d2  = "^0.8.0"
-r2d2_postgres = "^0.14.0"
 postgres = {version= "^0.15.0", features = ["with-chrono"]}
+r2d2 = "^0.8.0"
+r2d2_postgres = "^0.14.0"
 dotenv = "^0.10.0"
 chrono = { version = "0.4", features = ["serde"] }
 regex = "^0.2.0"
 bcrypt = "^0.1.0"
 env_logger = "^0.5.0"
-futures = "0.1"
-uuid = { version = "0.5", features = ["serde", "v4"] }
+futures = "^0.1.0"
 ring = "0.12.1"
 bytes = "^0.4.0"

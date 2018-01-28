@@ -4,7 +4,6 @@
 #[macro_use] extern crate serde_derive;
 extern crate serde;
 extern crate serde_json;
-extern crate uuid;
 extern crate bytes;
 extern crate futures;
 extern crate num_cpus;
@@ -18,10 +17,12 @@ extern crate http;
 extern crate ring;
 extern crate data_encoding;
 extern crate regex;
+extern crate r2d2;
+extern crate r2d2_postgres;
+extern crate postgres;
 
 use actix::*;
 use actix_web::*;
-use std::env;
 
 mod api;
 mod handler;
@@ -31,13 +32,13 @@ mod utils;
 use model::db::DbExecutor;
 use utils::cors;
 use handler::index::{ State, home, path };
-use handler::auth::{ signup, signin };
+use handler::auth::{ signup };
 
 fn main() {
     ::std::env::set_var("RUST_LOG", "actix_web=info");
+    // ::std::env::set_var("RUST_BACKTRACE", "1");
     env_logger::init();
     let sys = actix::System::new("webapp");
-    env::set_var("RUST_BACKTRACE", "1");
     let addr = SyncArbiter::start( num_cpus::get() * 3, || DbExecutor::new());
     HttpServer::new(
         move || Application::with_state(State{db: addr.clone()})
@@ -46,14 +47,15 @@ fn main() {
             .resource(r"/a/{tail:.*}", |r| r.f(path))
             .resource("/user/signup", |r| {
                 cors::options().register(r);
-                r.method(Method::POST).a(body);
+                r.method(Method::POST).a(signup);
             })
             // .resource("/user/signin", |r| {
-            //     r.middleware(cors::options());
+            //     cors::options().register(r);
             //     r.method(Method::POST).a(signin);
             // })
             .handler("/", fs::StaticFiles::new("public", true)))
-        .bind("127.0.0.1:8000").unwrap()
+        .bind("127.0.0.1:8002").unwrap()
+        .shutdown_timeout(2)
         .start();
 
     let _ = sys.run();

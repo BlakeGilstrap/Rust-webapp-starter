@@ -1,18 +1,21 @@
 use utils::schema::users;
+use std::time::SystemTime;
+use chrono::{DateTime,Utc,NaiveDateTime};
 
-#[derive(Debug, Serialize, Queryable)]
+#[derive(Debug,Serialize,PartialEq,Identifiable,Queryable)]
 pub struct User {
-    pub id: String,
+    pub id: i32,
     pub email: String,
     pub username: String,
     pub password: String,
+    pub created_at: SystemTime,
 }
 
-#[derive(Insertable)]
+#[derive(Deserialize,Insertable)]
 #[table_name="users"]
 pub struct NewUser<'a> {
-    pub id: &'a str,
     pub email: &'a str,
     pub username: &'a str,
     pub password: &'a str,
+    pub created_at: SystemTime,
 }
