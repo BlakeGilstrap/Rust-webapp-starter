@@ -29,7 +29,7 @@ mod handler;
 mod model;
 mod utils;
 
-use model::db::DbExecutor;
+use model::db::ConnDsl;
 use utils::cors;
 use handler::index::{ State, home, path };
 use handler::auth::{ signup };
@@ -39,9 +39,9 @@ fn main() {
     // ::std::env::set_var("RUST_BACKTRACE", "1");
     env_logger::init();
     let sys = actix::System::new("webapp");
-    let addr = SyncArbiter::start( num_cpus::get() * 3, || DbExecutor::new());
+    let addr = SyncArbiter::start( num_cpus::get() * 3, || ConnDsl::new());
     HttpServer::new(
-        move || Application::with_state(State{db: addr.clone()})
+        move || Application::with_state(State{db_pool_dsl: addr.clone()})
             .middleware(middleware::Logger::default())
             .resource("/", |r| r.f(home))
             .resource(r"/a/{tail:.*}", |r| r.f(path))
