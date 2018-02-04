@@ -11,7 +11,7 @@ pub struct User {
     pub created_at: SystemTime,
 }
 
-#[derive(Deserialize,Insertable)]
+#[derive(Debug,Deserialize,Insertable)]
 #[table_name="users"]
 pub struct NewUser<'a> {
     pub email: &'a str,

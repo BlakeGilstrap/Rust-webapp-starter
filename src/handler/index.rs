@@ -1,10 +1,10 @@
 use actix::*;
 use actix_web::*;
 use std::path::Path;
-use model::db::ConnDsl;
+use model::db::DbExecutor;
 
 pub struct State {
-    pub db_pool_dsl: SyncAddress<ConnDsl>,
+    pub db: SyncAddress<DbExecutor>,
 }
 
 pub fn home(_req: HttpRequest<State>) -> Result<fs::NamedFile> {

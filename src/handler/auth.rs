@@ -7,7 +7,7 @@ use std::time::SystemTime;
 use handler::index::State;
 use bcrypt::{DEFAULT_COST, hash, verify};
 use utils::token::{ self, verify_token };
-use handler::func::{ SignupUser, SigninUser };
+use handler::func::{ SignupUser};
 use model::user::{User,NewUser};
 
 #[derive(Deserialize,Serialize, Debug)]
@@ -21,23 +21,19 @@ struct Signup {
 pub fn signup(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Error>> {
     req.json()                     
        .from_err()
-       .and_then(|signup_user: Signup| {  
-            if &signup_user.password == &signup_user.confirm_password {
-                use utils::schema::users::dsl::*;
-                let hash_password = match hash(&signup_user.password, DEFAULT_COST) {
-                    Ok(h) => h,
-                    Err(_) => panic!()
-                };
-                let new_user = NewUser {
-                    email: &signup_user.email,
-                    username: &signup_user.username,
-                    password: &hash_password,
-                    created_at: SystemTime::now(),
-                };
-                diesel::insert_into(users).values(&new_user).execute(&req.state().db_pool_dsl).expect("User is  Exist!");
-            }else{
-
+       .and_then(move |signup_user: Signup| {  
+            println!("============{:?}===========",signup_user);
+            {
+                println!("============111===========");
+                &req.state().db.call_fut(SignupUser{ 
+                username: signup_user.username.to_string(),
+                email: signup_user.email.to_string(),
+                password: signup_user.password.to_string(),
+                confirm_password: signup_user.confirm_password.to_string(),
+                });
             }
+           
+            println!("============end===========");
             Ok(httpcodes::HTTPOk.into())
        }).responder()
 }
