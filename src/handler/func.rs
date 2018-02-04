@@ -29,7 +29,6 @@ impl ResponseType for SignupUser {
 impl Handler<SignupUser> for DbExecutor {
     type Result = MessageResult<SignupUser>;
     fn handle(&mut self, signup_user: SignupUser, _: &mut Self::Context) -> Self::Result {
-        println!("===========222============");
         if &signup_user.password == &signup_user.confirm_password {
                 use utils::schema::users::dsl::*;
                 let hash_password = match hash(&signup_user.password, DEFAULT_COST) {
@@ -42,12 +41,11 @@ impl Handler<SignupUser> for DbExecutor {
                     password: &hash_password,
                     created_at: SystemTime::now(),
                 };
-                println!("==========={:?}============", new_user);
+                println!("===========new_user: {:?}============", new_user);
                 diesel::insert_into(users).values(&new_user).execute(&self.0).expect("Error inserting person");
 
                 Ok(Message { msg: "Successful".to_string()})
         }else{
-            println!("============err===========");
             Ok(Message { msg: "Something wrong".to_string()})
         }
     }

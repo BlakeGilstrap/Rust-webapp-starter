@@ -54,7 +54,7 @@ fn main() {
             //     r.method(Method::POST).a(signin);
             // })
             .handler("/", fs::StaticFiles::new("public", true)))
-        .bind("127.0.0.1:8002").unwrap()
+        .bind("127.0.0.1:8000").unwrap()
         .shutdown_timeout(2)
         .start();
 

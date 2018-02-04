@@ -44,7 +44,7 @@ export default {
       var email = this.Email
       var password = this.Password
       var confirm_password = this.ConfirmPassword
-      axios.post('http://localhost:8002/user/signup', {
+      axios.post('http://localhost:8000/user/signup', {
           username: username,
           email: email,
           password: password,

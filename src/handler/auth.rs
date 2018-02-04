@@ -23,17 +23,12 @@ pub fn signup(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Er
        .from_err()
        .and_then(move |signup_user: Signup| {  
             println!("============{:?}===========",signup_user);
-            {
-                println!("============111===========");
-                &req.state().db.call_fut(SignupUser{ 
+            req.state().db.call_fut(SignupUser{ 
                 username: signup_user.username.to_string(),
                 email: signup_user.email.to_string(),
                 password: signup_user.password.to_string(),
                 confirm_password: signup_user.confirm_password.to_string(),
-                });
-            }
-           
-            println!("============end===========");
+            });
             Ok(httpcodes::HTTPOk.into())
        }).responder()
 }
