@@ -28,14 +28,14 @@ pub fn signup(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Er
                 email: signup_user.email,
                 password: signup_user.password,
                 confirm_password: signup_user.confirm_password,
-            })                
+            })         
             .from_err()
-        })
-        .and_then(|res| {
-            match res {
-                Ok(msg) => Ok(httpcodes::HTTPOk.build().body(msg)?),
-                Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
-            }
+            .and_then(|res| {
+                match res {
+                    Ok(msg) => Ok(httpcodes::HTTPOk.build().body(msg)?),
+                    Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
+                }
+            })
             // Ok(httpcodes::HTTPOk.into())
         }).responder()
 }
