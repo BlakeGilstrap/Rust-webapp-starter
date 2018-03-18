@@ -19,16 +19,23 @@ struct Signup {
 }
 
 pub fn signup(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+    let executor = req.state().db.clone();
     req.json()                     
        .from_err()
        .and_then(move |signup_user: Signup| {  
-            println!("============{:?}===========",signup_user);
-            req.state().db.call_fut(SignupUser{ 
-                username: signup_user.username.to_string(),
-                email: signup_user.email.to_string(),
-                password: signup_user.password.to_string(),
-                confirm_password: signup_user.confirm_password.to_string(),
-            });
-            Ok(httpcodes::HTTPOk.into())
-       }).responder()
+            executor.send(SignupUser{ 
+                username: signup_user.username,
+                email: signup_user.email,
+                password: signup_user.password,
+                confirm_password: signup_user.confirm_password,
+            })                
+            .from_err()
+        })
+        .and_then(|res| {
+            match res {
+                Ok(msg) => Ok(httpcodes::HTTPOk.build().body(msg)?),
+                Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
+            }
+            // Ok(httpcodes::HTTPOk.into())
+        }).responder()
 }
