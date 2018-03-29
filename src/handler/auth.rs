@@ -32,10 +32,9 @@ pub fn signup(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Er
             .from_err()
             .and_then(|res| {
                 match res {
-                    Ok(msg) => Ok(httpcodes::HTTPOk.build().body(msg)?),
+                    Ok(msg) => Ok(httpcodes::HTTPOk.build().json(msg)?),
                     Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
                 }
             })
-            // Ok(httpcodes::HTTPOk.into())
         }).responder()
 }

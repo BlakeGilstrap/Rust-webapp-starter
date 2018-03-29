@@ -15,8 +15,8 @@ diesel = { version = "^1.0.0", features = ["postgres","chrono","serde_json", "r2
 data-encoding = "2.1"
 num_cpus = "1.0"
 
-actix = { git = "https://github.com/actix/actix" }
-actix-web = { git = "https://github.com/actix/actix-web" }
+actix = "^0.5"
+actix-web = "^0.4"
 http = "^0.1.0"
 postgres = {version= "^0.15.0", features = ["with-chrono"]}
 r2d2 = "^0.8.0"

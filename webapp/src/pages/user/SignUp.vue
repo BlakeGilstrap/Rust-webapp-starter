@@ -52,6 +52,7 @@ export default {
       })
       .then(response => {
         console.log(response.data)
+        window.location.reload ( true )
         this.$router.push('/a/access')
       })
       .catch(e => {

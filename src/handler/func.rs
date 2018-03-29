@@ -18,16 +18,16 @@ pub struct SignupUser {
     pub password: String,
     pub confirm_password: String,
 }
-pub struct Message {
+#[derive(Deserialize,Serialize, Debug)]
+pub struct Msgs {
     pub msg: String,
 }
-impl ResponseType for SignupUser {
-    type Item = Message;
-    type Error = Error;
+impl Message for SignupUser {
+    type Result = Result<Msgs, Error>;
 }
 
 impl Handler<SignupUser> for DbExecutor {
-    type Result = MessageResult<SignupUser>;
+    type Result = Result<Msgs, Error>;
     fn handle(&mut self, signup_user: SignupUser, _: &mut Self::Context) -> Self::Result {
         if &signup_user.password == &signup_user.confirm_password {
                 use utils::schema::users::dsl::*;
@@ -44,9 +44,9 @@ impl Handler<SignupUser> for DbExecutor {
                 println!("===========new_user: {:?}============", new_user);
                 diesel::insert_into(users).values(&new_user).execute(&self.0).expect("Error inserting person");
 
-                Ok(Message { msg: "Successful".to_string()})
+                Ok(Msgs { msg: "Successful".to_string()})
         }else{
-            Ok(Message { msg: "Something wrong".to_string()})
+            Ok(Msgs { msg: "Something wrong".to_string()})
         }
     }
 }
