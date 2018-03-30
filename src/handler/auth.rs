@@ -23,7 +23,7 @@ pub fn signup(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Er
             .from_err()
             .and_then(|res| {
                 match res {
-                    Ok(msg) => Ok(httpcodes::HTTPOk.build().json(msg)?),
+                    Ok(signup_msg) => Ok(httpcodes::HTTPOk.build().json(signup_msg)?),
                     Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
                 }
             })
@@ -42,7 +42,7 @@ pub fn signin(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Er
             .from_err()
             .and_then(|res| {
                 match res {
-                    Ok(msg) => Ok(httpcodes::HTTPOk.build().json(msg)?),
+                    Ok(signin_msg) => Ok(httpcodes::HTTPOk.build().json(signin_msg)?),
                     Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
                 }
             })

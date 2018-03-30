@@ -64,12 +64,14 @@ export default {
     }
   },
   mounted: function() {
+    console.log(sessionStorage.getItem('token'))
+    console.log(sessionStorage.getItem('username'))
     axios.get('http://localhost:8000/api/article_list')
       .then((response) => {
         this.article_list = response.data.article_result
         // console.log(response.data.article_result[1])
-        // console.log(sessionStorage.getItem('token'))
-        // console.log(sessionStorage.getItem('username'))
+        console.log(sessionStorage.getItem('token'))
+        console.log(sessionStorage.getItem('username'))
       })
       .catch((e) => {
         console.log(e)
