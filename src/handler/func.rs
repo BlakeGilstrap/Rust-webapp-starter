@@ -59,7 +59,7 @@ impl Handler<SigninUser> for DbExecutor {
             },
             Err(_) => None,
         };
-        let null = User {
+        let no_user = User {
                 id: 0,
                 email: "".to_owned(),
                 username: "".to_owned(),
@@ -83,7 +83,7 @@ impl Handler<SigninUser> for DbExecutor {
                         Ok(SigninMsgs { 
                             status: 400,
                             token: "".to_owned(),
-                            signin_user: null,
+                            signin_user: no_user,
                             message : "Incorrect Password.".to_string(),
                         })
                     },
@@ -93,7 +93,7 @@ impl Handler<SigninUser> for DbExecutor {
                 Ok(SigninMsgs { 
                         status: 400,
                         token: "".to_owned(),
-                        signin_user: null,
+                        signin_user: no_user,
                         message : "Signin failure.".to_string(),
                 })
             }

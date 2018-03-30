@@ -8,7 +8,7 @@ const KEY: &str = "key";
 const EXPIRATION_TIME: i64 = 60 * 60 * 24 * 30;
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Token {
+struct Token {
 	user_id: String,
 	date: i64,
 }

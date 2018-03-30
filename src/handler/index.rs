@@ -4,7 +4,7 @@ use std::path::Path;
 use model::db::DbExecutor;
 
 pub struct State {
-    pub db: SyncAddress<DbExecutor>,
+    pub db: Addr<Syn, DbExecutor>,
 }
 
 pub fn home(_req: HttpRequest<State>) -> Result<fs::NamedFile> {
