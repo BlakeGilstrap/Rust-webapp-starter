@@ -19,3 +19,16 @@ pub struct NewUser<'a> {
     pub password: &'a str,
     pub created_at: SystemTime,
 }
+
+#[derive(Deserialize,Serialize, Debug)]
+pub struct SignupUser {
+    pub username: String,
+    pub email: String,
+    pub password: String,
+    pub confirm_password: String,
+}
+#[derive(Deserialize,Serialize, Debug)]
+pub struct SigninUser {
+    pub username: String,
+    pub password: String,
+}

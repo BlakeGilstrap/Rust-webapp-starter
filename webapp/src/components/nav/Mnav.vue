@@ -3,13 +3,15 @@
       <header>
         <div id="line"></div>
         <h1><router-link to="/">Rust</router-link></h1>
-        <label ><router-link to="#" id="menu">menu</router-link></label>
+        <label ><router-link to="#" id="menu">Menu</router-link></label>
       </header>
       <div id="lnav">
+          <li> <router-link to="/a/wiki" title="wiki">wiki</router-link></li>
           <li> <router-link to="/a/more" title="more">more</router-link></li>
       </div>
       <div id="rnav">
           <li v-if="username"> 
+            <a href="/a/new" title="new">new</a>
             <router-link to="/a/user" title="username">{{username}}</router-link>
             <a href="/a/access" title="Logout" @click="logout">logout</a>
           </li>
@@ -33,7 +35,7 @@ export default {
     logout() {
      sessionStorage.removeItem('token')
      sessionStorage.removeItem('username')
-     this.$router.push('/kxco/access')
+     this.$router.push('/a/access')
     }
   }
 }

@@ -32,7 +32,7 @@ mod utils;
 use model::db::DbExecutor;
 use utils::cors;
 use handler::index::{ State, home, path };
-use handler::auth::{ signup };
+use handler::auth::{ signup, signin };
 
 fn main() {
     ::std::env::set_var("RUST_LOG", "actix_web=info");
@@ -49,10 +49,10 @@ fn main() {
                 cors::options().register(r);
                 r.method(Method::POST).a(signup);
             })
-            // .resource("/user/signin", |r| {
-            //     cors::options().register(r);
-            //     r.method(Method::POST).a(signin);
-            // })
+            .resource("/user/signin", |r| {
+                cors::options().register(r);
+                r.method(Method::POST).a(signin);
+            })
             .handler("/", fs::StaticFiles::new("public", true)))
         .bind("127.0.0.1:8000").unwrap()
         .shutdown_timeout(2)

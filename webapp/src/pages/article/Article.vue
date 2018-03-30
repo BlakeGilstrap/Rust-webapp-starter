@@ -6,6 +6,7 @@
                             <h3> {{ article_id.title }} </h3> 
                             <span id="info">{{ article_id.category }}</span> • 
                             <span id="info"><router-link to="/user/article.uid">{{ article_id.username }}</router-link></span> • 
+                            <span id="info">{{ article_id.created_at }}</span>  
                         </div>
                         <div id="content">{{ article_id.cooked }}</div>
                     </div>

@@ -1,9 +1,13 @@
 <template>
-    <div id="centre">
+    <div id="center">
       <mnav id="mnav"></mnav>
       <div id="content">
-        <p>Welcom user centre.</p>
-        <button id="submit" @click="home">GET</button><br/>
+        <div id="user-center"><p>Uaer Center</p></div>
+        <p>Welcom user center.</p>
+        <p>email : {{ email }}</p>
+        <p>username ：{{ username }}</p>
+        <p>created_time : {{ created_time }}</p>
+        <button id="submit" @click="home">Home</button><br/>
       </div>
     </div>
 </template>
@@ -13,25 +17,28 @@ import axios from 'axios'
 import auth from '../../utils/auth'
 import Mnav from '../../components/nav/Mnav'
 export default {
-  name: 'centre',
+  name: 'center',
   components: {
     "mnav": Mnav
   },
   data: function() {
     return {
-      
+      email: '',
+      username: '',
+      created_time: ''
     }
   },
-  methods: {
-    home() {
+  mounted: function() {
     // if(auth.user.authenticated == ture) {
         axios.get('http://localhost:8000/api/user_info', auth.getAuthHeader() )
         .then((response) => {
-          if(response.data.status === "200") {
-            // console.log(response.data.user_info)
-          }
-          window.location.reload ( true ); 
-          this.$router.push('/')
+          // if(response.data.status === "200") {
+            console.log(response.data.user_info)
+            this.email =  response.data.user_info.email
+            this.username =  response.data.user_info.username
+            this.created_time =  response.data.user_info.created_time
+          // }
+          // this.$router.push('/')
         })
         .catch((e) => {
           console.log(e)
@@ -39,6 +46,11 @@ export default {
     // }else{
     //     this.$router.push('/kxco/user_id')
     // }
+  },
+  methods: {
+    home() {
+        window.location.reload ( true ); 
+        this.$router.push('/')
     }
   }
 }

@@ -32,6 +32,7 @@ $ cd Rust-webapp-starter
 $ cargo install diesel_cli --no-default-features --features postgres
 $ diesel setup
 $ cd webapp
+$ npm install
 $ npm run build
 $ cd ..
 $ cargo run

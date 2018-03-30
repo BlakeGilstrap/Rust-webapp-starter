@@ -1,24 +1,23 @@
 <template>
-    <div id="more">
-        <mnav id="mnav"></mnav>
-        <div id="content">
-            <p><strong>More</strong> Thos is the wiki page.</p> <br>
-        </div><br>
-    </div>
+  <div  id="wiki">
+      <mnav id="mnav"></mnav>
+      <div id="content">
+          <p><strong>Wiki</strong> Thos is the wiki page.</p> <br>
+      </div><br>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
 import Mnav from '../../components/nav/Mnav'
 export default {
-    name: 'more',
-    components: {
+  name: 'wiki',
+  components: {
     "mnav": Mnav
   }
-
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @media only screen and (max-width: 600px) {
     #content  {
