@@ -2,7 +2,6 @@ use diesel;
 use actix::*;
 use actix_web::*;
 use diesel::prelude::*;
-use utils::token::verify_token;
 use utils::token;
 use std::time::SystemTime;
 use bcrypt::{DEFAULT_COST, hash, verify};
@@ -72,10 +71,17 @@ impl Handler<SigninUser> for DbExecutor {
                     Ok(valid) => {
                         let user_id = login_user.id.to_string();
                         let token = token::generate_token(user_id).unwrap();
+                        let the_user = User {
+                            id: login_user.id,
+                            email: login_user.email.clone(),
+                            username: login_user.username.clone(),
+                            password: login_user.password.clone(),
+                            created_at : login_user.created_at.clone(),
+                        };
                         Ok(SigninMsgs { 
                             status: 200,
                             token: token,
-                            signin_user: login_user,
+                            signin_user: the_user,
                             message : "Succesfully signin.".to_string(),
                         })
                     },

@@ -1,12 +1,8 @@
 use actix_web::*;
 use futures::future::Future;
-use bytes::Bytes;
 use diesel;
 use diesel::prelude::*;
-use std::time::SystemTime;
 use handler::index::State;
-use bcrypt::{DEFAULT_COST, hash, verify};
-use utils::token::{ self, verify_token };
 use model::user::{User,NewUser,SignupUser,SigninUser};
 
 pub fn signup(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Error>> {
