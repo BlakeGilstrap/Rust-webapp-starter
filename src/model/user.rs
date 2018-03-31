@@ -1,6 +1,5 @@
 use utils::schema::users;
 use std::time::SystemTime;
-use chrono::{DateTime,Utc,NaiveDateTime};
 
 #[derive(Debug,Serialize,Deserialize,PartialEq,Identifiable,Queryable)]
 pub struct User {

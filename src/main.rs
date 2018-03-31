@@ -56,7 +56,7 @@ fn main() {
             })
             .resource("/api/article_list", |r| {
                 cors::options().register(r);
-                r.method(Method::get).a(article_list);
+                r.method(Method::GET).a(article_list);
             })
             .handler("/", fs::StaticFiles::new("public", true)))
         .bind("127.0.0.1:8000").unwrap()

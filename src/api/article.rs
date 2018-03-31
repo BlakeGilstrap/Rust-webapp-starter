@@ -2,25 +2,17 @@ use diesel;
 use actix::*;
 use actix_web::*;
 use diesel::prelude::*;
-use model::user::User;
+use futures::future::Future;
+use handler::index::State;
 use utils::schema::article;
 use std::time::SystemTime;
-use actix_web::{Json, Result };
+use model::article::Article;
 use model::db::DbExecutor;
+use model::response::ArticleListMsgs;
 
-#[derive(Debug,Serialize,Queryable,Identifiable, Associations)]
-#[belongs_to(User)]
-pub struct Article {
-    pub id: i32,
-    pub user_id: i32,
-    pub category: String,
-    pub title: String,
-    pub body: String,
-    pub created_at: SystemTime,
-}
 pub struct ArticleList;
 impl Message for ArticleList {
-    type Result = Result<Article, Error>;
+    type Result = Result<ArticleListMsgs, Error>;
 }
 pub fn article_list(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Error>> {
     req.state().db.send(ArticleList)
@@ -34,17 +26,15 @@ pub fn article_list(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Er
 }
 
 impl Handler<ArticleList> for DbExecutor {
-    type Result = Result<Article, Error>;
+    type Result = Result<ArticleListMsgs, Error>;
     fn handle(&mut self, article_list: ArticleList, _: &mut Self::Context) -> Self::Result {
         use utils::schema::article::dsl::*;
+        // let mut article_result: Vec<Article> = vec![];
         let mut article_result: Vec<Article> = article::table.load(&self.0).expect("Error");
-        Ok(Article { 
-                id: i32,
-                user_id: i32,
-                category: String,
-                title: String,
-                body: String,
-                created_at: SystemTime,
+        Ok(ArticleListMsgs { 
+                status: 200,
+                message : "article_list result.".to_string(),
+                article_list: article_result,
         })
     }
 }
