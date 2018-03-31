@@ -21,7 +21,7 @@
                                     <option value="Web">Web</option>
                                     <option value="Embed">Embed</option>
                                     <option value="Server">Server</option>
-                                    <option value="Client">Client</option>
+                                    <option value="Client">Wasm</option>
                                 </select>
                                 <select v-else name="category" id="category-control">
                                     <option value="Topic">Topic</option>

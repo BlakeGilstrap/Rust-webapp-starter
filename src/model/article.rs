@@ -1,7 +1,6 @@
 use model::user::User;
 use utils::schema::article;
 use std::time::SystemTime;
-use chrono::{DateTime,Utc};
 
 #[derive(Debug,Serialize,Queryable,Identifiable, Associations)]
 #[belongs_to(User)]

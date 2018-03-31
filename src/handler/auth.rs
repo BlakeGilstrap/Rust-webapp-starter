@@ -1,7 +1,5 @@
 use actix_web::*;
 use futures::future::Future;
-use diesel;
-use diesel::prelude::*;
 use handler::index::State;
 use model::user::{User,NewUser,SignupUser,SigninUser};
 
