@@ -6,9 +6,9 @@ use futures::future::Future;
 use handler::index::State;
 use utils::schema::article;
 use std::time::SystemTime;
-use model::article::Article;
+use model::article::{ Article, NewArticle, ArticleNew };
 use model::db::DbExecutor;
-use model::response::ArticleListMsgs;
+use model::response::{ ArticleListMsgs, Msgs };
 
 pub struct ArticleList;
 impl Message for ArticleList {
@@ -31,24 +31,53 @@ impl Handler<ArticleList> for DbExecutor {
         use utils::schema::article::dsl::*;
         let mut article_result: Vec<Article> = vec![];
         article_result = article.load::<Article>(&self.0).expect("Error");
-        // let conn = self.0.get().unwrap();
-        // for row in conn.execute("SELECT article.id, article.user_id, article.category, article.title, article.body, article.created_at 
-        //                    FROM article ", &[]).unwrap(){
-        //         let mut result = Article {
-        //         id: row.get(0),
-        //         user_id: row.get(1),
-        //         category: row.get(2),
-        //         title: row.get(3),
-        //         body: row.get(4),
-        //         created_at: row.get(5),
-        //     };
-        //     article_result.push(result);
-        
-        // }
         Ok(ArticleListMsgs { 
                 status: 200,
                 message : "article_list result.".to_string(),
                 article_list: article_result,
         })
+    }
+}
+
+pub fn article_new(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+    let executor = req.state().db.clone();
+    req.json()                     
+       .from_err()
+       .and_then(move |article_new: ArticleNew| {  
+            executor.send(ArticleNew{ 
+                category: article_new.category,
+                title: article_new.title,
+                content: article_new.content,
+            })         
+            .from_err()
+            .and_then(|res| {
+                match res {
+                    Ok(msg) => Ok(httpcodes::HTTPOk.build().json(msg)?),
+                    Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
+                }
+            })
+        }).responder()
+}
+
+impl Message for ArticleNew {
+    type Result = Result<Msgs, Error>;
+}
+
+impl Handler<ArticleNew> for DbExecutor {
+    type Result = Result<Msgs, Error>;
+    fn handle(&mut self, article_new: ArticleNew, _: &mut Self::Context) -> Self::Result {
+        use utils::schema::article::dsl::*;
+        let new_article = NewArticle {
+                user_id: 1,
+                category: &article_new.category,
+                title: &article_new.title,
+                body: &article_new.content,
+                created_at: SystemTime::now(),
+        };
+        diesel::insert_into(article).values(&new_article).execute(&self.0).expect("Error Article Publish");
+        Ok(Msgs { 
+                    status: 200,
+                    message : "Article Publish Successful.".to_string(),
+        })        
     }
 }

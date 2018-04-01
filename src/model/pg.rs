@@ -14,6 +14,6 @@ impl PoolPg {
     pub fn new() -> PoolPg {
         let db_url = dotenv::var("DATABASE_URL").expect("DATABASE_URL must be set");
         let manager = PostgresConnectionManager::new(db_url, TlsMode::None).unwrap();
-        PoolPg(Pool::new(manager).unwrap().clone())
+        PoolPg(Pool::new(manager).unwrap())
     }
 }

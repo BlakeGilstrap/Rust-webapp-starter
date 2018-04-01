@@ -3,10 +3,10 @@
         <mnav id="mnav"></mnav>
         <div id="content">
             <div id="new-title"><p>New Publish</p></div>
-            <form id="form" method="post" action="/article/addarticle" accept-charset="utf-8">
+            <form id="form" >
                     <div id="topic-group">
                         <span  id="category">
-                                <select v-if="username" name="category" id="category-control" >
+                                <select v-if="username" name="category" v-model="category" id="category-control" >
                                     <option value="Topic">Topic <span class="icon-arrow"></span></option>
                                     <option value="Share">Share</option>
                                     <option value="Article">Article</option>
@@ -23,7 +23,7 @@
                                     <option value="Server">Server</option>
                                     <option value="Client">Wasm</option>
                                 </select>
-                                <select v-else name="category" id="category-control">
+                                <select v-else name="category" v-model="category" id="category-control">
                                     <option value="Topic">Topic</option>
                                     <option value="Share">Share</option>
                                     <option value="Article">Article</option>
@@ -33,14 +33,14 @@
                                 </select>
                         </span>
                         <span id="title">
-                                <input type="text" name="title" placeholder="Please input title">
+                                <input type="text" name="title" v-model="Title" placeholder="Please input title">
                         </span>
                     </div>    
                     <div id="new">
-                                <textarea name="raw" placeholder="Write new Publish in markdown!"></textarea>
+                                <textarea name="content" v-model="Content" placeholder="Write new Publish in markdown!"></textarea>
                     </div>
                     <div id="new">
-                                <button type="submit" id="submit"><span class="tip"> Publish </span></button>
+                                <button type="submit" id="submit" @click="publish" ><span class="tip"> Publish </span></button>
                     </div>
             </form>
         </div>
@@ -55,13 +55,32 @@ export default {
     components: {
         "mnav": Mnav
     },
-    data: function () {
-        return { 
-        username: sessionStorage.getItem('username')
+    data () {
+        return {
+        Category: '',
+        Title: '',
+        Content: ''
         }
     },
     methods: {
-        
+        publish () {
+            var category = this.Category
+            var title = this.Title
+            var content = this.Content
+            axios.post('http://localhost:8000/api/article_new', {
+                category: category,
+                title: title,
+                content: content
+            })
+            .then(response => {
+                // console.log(response.data.msg)
+                window.location.reload ( true )
+                this.$router.push('/')
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        }
     }
 }
 </script>

@@ -7,18 +7,18 @@ use std::time::SystemTime;
 use bcrypt::{DEFAULT_COST, hash, verify};
 
 use model::user::{User,NewUser,SignupUser,SigninUser};
-use model::response::{ SignupMsgs, SigninMsgs };
+use model::response::{ Msgs, SigninMsgs };
 use model::db::DbExecutor;
 
 impl Message for SignupUser {
-    type Result = Result<SignupMsgs, Error>;
+    type Result = Result<Msgs, Error>;
 }
 impl Message for SigninUser {
     type Result = Result<SigninMsgs, Error>;
 }
 
 impl Handler<SignupUser> for DbExecutor {
-    type Result = Result<SignupMsgs, Error>;
+    type Result = Result<Msgs, Error>;
     fn handle(&mut self, signup_user: SignupUser, _: &mut Self::Context) -> Self::Result {
         if &signup_user.password == &signup_user.confirm_password {
                 use utils::schema::users::dsl::*;
@@ -33,12 +33,12 @@ impl Handler<SignupUser> for DbExecutor {
                     created_at: SystemTime::now(),
                 };
                 diesel::insert_into(users).values(&new_user).execute(&self.0).expect("Error inserting person");
-                Ok(SignupMsgs { 
+                Ok(Msgs { 
                         status: 200,
                         message : "Successful Signup.".to_string(),
                 })
         }else{
-            Ok(SignupMsgs { 
+            Ok(Msgs { 
                     status: 400,
                     message : "failed Signup.".to_string(),
             })

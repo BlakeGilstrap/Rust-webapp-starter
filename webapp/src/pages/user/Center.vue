@@ -29,23 +29,16 @@ export default {
     }
   },
   mounted: function() {
-    // if(auth.user.authenticated == ture) {
         axios.get('http://localhost:8000/api/user_info', auth.getAuthHeader() )
         .then((response) => {
-          // if(response.data.status === "200") {
             console.log(response.data.user_info)
             this.email =  response.data.user_info.email
             this.username =  response.data.user_info.username
             this.created_time =  response.data.user_info.created_time
-          // }
-          // this.$router.push('/')
         })
         .catch((e) => {
           console.log(e)
         })
-    // }else{
-    //     this.$router.push('/kxco/user_id')
-    // }
   },
   methods: {
     home() {

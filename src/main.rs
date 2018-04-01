@@ -30,23 +30,22 @@ mod model;
 mod utils;
 
 use model::db::DbExecutor;
-use model::pg::PoolPg;
 use utils::cors;
 use handler::index::{ State, home, path };
 use handler::auth::{ signup, signin };
-use api::article::article_list;
+use api::article::{ article_list, article_new };
 
 fn main() {
     ::std::env::set_var("RUST_LOG", "actix_web=info");
-    // ::std::env::set_var("RUST_BACKTRACE", "1");
+    ::std::env::set_var("RUST_BACKTRACE", "1");
     env_logger::init();
     let sys = actix::System::new("webapp");
     let addr = SyncArbiter::start( num_cpus::get() * 4, || DbExecutor::new());
-    let addr_pg = SyncArbiter::start( num_cpus::get() * 4, || PoolPg::new());
+    // let addr_pg = SyncArbiter::start( num_cpus::get() * 4, || PoolPg::new());
     HttpServer::new(
         move || Application::with_state(State{
                 db: addr.clone(),
-                db_pg:addr_pg.clone(),
+                // db_pg:addr_pg.clone(),
             })
             .middleware(middleware::Logger::default())
             .resource("/", |r| r.f(home))
@@ -62,6 +61,10 @@ fn main() {
             .resource("/api/article_list", |r| {
                 cors::options().register(r);
                 r.method(Method::GET).a(article_list);
+            })
+            .resource("/api/article_new", |r| {
+                cors::options().register(r);
+                r.method(Method::POST).a(article_new);
             })
             .handler("/", fs::StaticFiles::new("public", true)))
         .bind("127.0.0.1:8000").unwrap()

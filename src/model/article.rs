@@ -22,3 +22,10 @@ pub struct NewArticle<'a> {
     pub body: &'a str,
     pub created_at: SystemTime,
 }
+
+#[derive(Deserialize,Serialize, Debug)]
+pub struct ArticleNew {
+    pub category: String,
+    pub title: String,
+    pub content: String,
+}

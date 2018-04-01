@@ -66,9 +66,10 @@ export default {
   mounted: function() {
     axios.get('http://localhost:8000/api/article_list')
       .then((response) => {
-        this.article_list = response.data.article_result
+        this.article_list = response.data.article_list
         console.log(sessionStorage.getItem('token'))
         console.log(sessionStorage.getItem('username'))
+        console.log(response.data.article_list)
       })
       .catch((e) => {
         console.log(e)

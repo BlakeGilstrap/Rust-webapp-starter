@@ -2,7 +2,7 @@ use model::user::User;
 use model::article::Article;
 
 #[derive(Deserialize,Serialize, Debug)]
-pub struct SignupMsgs {
+pub struct Msgs {
     pub status: i32,
     pub message : String,
 }
