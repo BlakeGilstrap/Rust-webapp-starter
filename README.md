@@ -39,6 +39,11 @@ $ cargo run
 ```
 then open broswer 'http://localhost:8000/'
 
+## worked
+- signup(done)
+- signin(done)
+- 
+
 ### Contribute
  
 welcome to contribute !
