@@ -2,7 +2,7 @@ use model::user::User;
 use utils::schema::article;
 use std::time::SystemTime;
 
-#[derive(Debug,Serialize,Deserialize,PartialEq,Queryable)]
+#[derive(Clone,Debug,Serialize,Deserialize,PartialEq,Queryable)]
 pub struct Article {
     pub id: i32,
     pub user_id: i32,
@@ -13,7 +13,7 @@ pub struct Article {
 }
 
 
-#[derive(Debug,Serialize,Deserialize,Insertable)]
+#[derive(Serialize,Deserialize,Insertable,Debug, Clone)]
 #[table_name="article"]
 pub struct NewArticle<'a> {
     pub user_id: i32,

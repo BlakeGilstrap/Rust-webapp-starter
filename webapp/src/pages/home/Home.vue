@@ -26,20 +26,20 @@
                   
                   <div id="items" v-for="article in article_list">
                       <div id="announcement" v-if="article.category === 'Announcement'">
-                          <span id="announcement-title"> <router-link to="/kxco/article/article.id" title="article.title">  {{ article.title }} </router-link></span>
+                          <span id="announcement-title"> <router-link to="/a/article/article.id" title="article.title">  {{ article.title }} </router-link></span>
                           <span id="right">
                               <span id="info"> {{ article.category }} </span>
-                              <span id="info"><router-link to="/user/article.uid"> {{ article.username }} </router-link></span>
-                              <span id="info"> {{ article.comments_count }} </span>
+                              <span id="info"><router-link to="/user/article.uid"> {{ article.id }} </router-link></span>
+                              <span id="info"> {{ article.user_id }} </span>
                               <span > {{ article.created_at }} </span>
                           </span>                        
                       </div>
                       <div id="item" v-else>
-                        <span id="item-title"> <router-link to="/kxco/article/article.id" title="article.title">  {{ article.title }} </router-link></span>
+                        <span id="item-title"> <router-link to="/a/article/article.id" title="article.title">  {{ article.title }} </router-link></span>
                         <span id="right">
                             <span id="info"> {{ article.category }} </span>
-                            <span id="info"><router-link to="/user/article.uid"> {{ article.username }} </router-link></span>
-                            <span id="info"> {{ article.comments_count }} </span>
+                            <span id="info"><router-link to="/user/article.uid"> {{ article.id }} </router-link></span>
+                            <span id="info"> {{ article.user_id }} </span>
                             <span > {{ article.created_at }} </span>
                         </span>
                       </div>
@@ -64,12 +64,9 @@ export default {
     }
   },
   mounted: function() {
-    console.log(sessionStorage.getItem('token'))
-    console.log(sessionStorage.getItem('username'))
     axios.get('http://localhost:8000/api/article_list')
       .then((response) => {
         this.article_list = response.data.article_result
-        // console.log(response.data.article_result[1])
         console.log(sessionStorage.getItem('token'))
         console.log(sessionStorage.getItem('username'))
       })

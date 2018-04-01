@@ -1,8 +1,6 @@
 use actix::*;
 use r2d2::*;
 use r2d2_postgres::{ PostgresConnectionManager, TlsMode };
-use postgres::Connection;
-use std::ops::Deref;
 use dotenv;
 
 //  r2d2_postgres
@@ -16,6 +14,6 @@ impl PoolPg {
     pub fn new() -> PoolPg {
         let db_url = dotenv::var("DATABASE_URL").expect("DATABASE_URL must be set");
         let manager = PostgresConnectionManager::new(db_url, TlsMode::None).unwrap();
-        PoolPg(Pool::builder().build(manager).expect("Failed to create pool."))
+        PoolPg(Pool::new(manager).unwrap().clone())
     }
 }

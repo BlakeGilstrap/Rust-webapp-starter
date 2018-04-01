@@ -29,8 +29,22 @@ impl Handler<ArticleList> for DbExecutor {
     type Result = Result<ArticleListMsgs, Error>;
     fn handle(&mut self, article_list: ArticleList, _: &mut Self::Context) -> Self::Result {
         use utils::schema::article::dsl::*;
-        // let mut article_result: Vec<Article> = vec![];
-        let mut article_result: Vec<Article> = article::table.load(&self.0).expect("Error");
+        let mut article_result: Vec<Article> = vec![];
+        article_result = article.load::<Article>(&self.0).expect("Error");
+        // let conn = self.0.get().unwrap();
+        // for row in conn.execute("SELECT article.id, article.user_id, article.category, article.title, article.body, article.created_at 
+        //                    FROM article ", &[]).unwrap(){
+        //         let mut result = Article {
+        //         id: row.get(0),
+        //         user_id: row.get(1),
+        //         category: row.get(2),
+        //         title: row.get(3),
+        //         body: row.get(4),
+        //         created_at: row.get(5),
+        //     };
+        //     article_result.push(result);
+        
+        // }
         Ok(ArticleListMsgs { 
                 status: 200,
                 message : "article_list result.".to_string(),
