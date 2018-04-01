@@ -40,9 +40,11 @@ $ cargo run
 then open broswer 'http://localhost:8000/'
 
 ## worked
-- signup(done)
-- signin(done)
-- 
+- signup (done)
+- signin (done)
+- browse pages data (get,post) (done)
+- publish article (done)
+- user center (jwt) (working)
 
 ### Contribute
  
