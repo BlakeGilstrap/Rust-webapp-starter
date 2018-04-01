@@ -34,6 +34,7 @@ use utils::cors;
 use handler::index::{ State, home, path };
 use handler::auth::{ signup, signin };
 use api::article::{ article_list, article_new };
+// use api::user::user_info;
 
 fn main() {
     ::std::env::set_var("RUST_LOG", "actix_web=info");
@@ -66,6 +67,10 @@ fn main() {
                 cors::options().register(r);
                 r.method(Method::POST).a(article_new);
             })
+            // .resource("/api/user_info", |r| {
+            //     cors::options().register(r);
+            //     r.method(Method::GET).a(user_info);
+            // })
             .handler("/", fs::StaticFiles::new("public", true)))
         .bind("127.0.0.1:8000").unwrap()
         .shutdown_timeout(2)

@@ -21,3 +21,10 @@ pub struct ArticleListMsgs {
     pub message : String,
     pub article_list: Vec<Article>,
 }
+
+#[derive(Deserialize,Serialize, Debug)]
+pub struct UserInfoMsgs {
+    pub status: i32,
+    pub message : String,
+    pub current_user: Option<User>,
+}

@@ -56,7 +56,7 @@ pub fn article_new(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Err
                     Err(_) => Ok(httpcodes::HTTPInternalServerError.into())
                 }
             })
-        }).responder()
+    }).responder()
 }
 
 impl Message for ArticleNew {

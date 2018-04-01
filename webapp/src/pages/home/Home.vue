@@ -52,6 +52,7 @@
 
 <script>
 import axios from 'axios'
+import auth from '../../utils/auth'
 import Mnav from '../../components/nav/Mnav'
 export default {
   name: 'home',
@@ -64,7 +65,7 @@ export default {
     }
   },
   mounted: function() {
-    axios.get('http://localhost:8000/api/article_list')
+    axios.get('http://localhost:8000/api/article_list', auth.getAuthHeader())
       .then((response) => {
         this.article_list = response.data.article_list
         console.log(sessionStorage.getItem('token'))

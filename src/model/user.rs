@@ -33,4 +33,6 @@ pub struct SigninUser {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Token (pub String);
+pub struct UserInfo {
+    pub user_id: String,
+}
