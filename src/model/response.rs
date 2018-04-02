@@ -26,5 +26,5 @@ pub struct ArticleListMsgs {
 pub struct UserInfoMsgs {
     pub status: i32,
     pub message : String,
-    pub current_user: Option<User>,
+    pub current_user: User,
 }

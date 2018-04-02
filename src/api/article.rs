@@ -14,6 +14,7 @@ pub struct ArticleList;
 impl Message for ArticleList {
     type Result = Result<ArticleListMsgs, Error>;
 }
+
 pub fn article_list(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Error>> {
     req.state().db.send(ArticleList)
     .from_err()

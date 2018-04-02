@@ -29,12 +29,13 @@ export default {
     }
   },
   mounted: function() {
-        axios.get('http://localhost:8000/api/user_info', auth.getAuthHeader() )
+        axios.get('http://localhost:8000/api/user_info', auth.getAuthHeader())
         .then((response) => {
-            console.log(response.data.user_info)
-            this.email =  response.data.user_info.email
-            this.username =  response.data.user_info.username
-            this.created_time =  response.data.user_info.created_time
+            this.email =  response.data.current_user.email
+            this.username =  response.data.current_user.username
+            this.created_time =  response.data.current_user.created_at
+            console.log(response.data.current_user)
+            console.log(response.data.current_user.email)
         })
         .catch((e) => {
           console.log(e)
