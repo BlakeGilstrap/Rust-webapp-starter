@@ -44,7 +44,7 @@ then open broswer 'http://localhost:8000/'
 - signin (done)
 - browse pages data : get/post (done)
 - publish article (done)
-- user center : jwt (working)
+- user center : jwt (done)
 
 ### Contribute
  
