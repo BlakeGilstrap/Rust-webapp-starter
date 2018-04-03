@@ -67,7 +67,9 @@ export default {
             var category = this.Category
             var title = this.Title
             var content = this.Content
+            var user_id = JSON.parse(sessionStorage.getItem('signin_user')).id
             axios.post('http://localhost:8000/api/article_new', {
+                user_id: user_id,
                 category: category,
                 title: title,
                 content: content

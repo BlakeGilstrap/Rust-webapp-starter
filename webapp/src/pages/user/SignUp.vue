@@ -51,7 +51,7 @@ export default {
           confirm_password: confirm_password
       })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         window.location.reload ( true )
         this.$router.push('/a/access')
       })

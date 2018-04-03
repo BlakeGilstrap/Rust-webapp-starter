@@ -25,7 +25,13 @@ pub struct NewArticle<'a> {
 
 #[derive(Deserialize,Serialize, Debug)]
 pub struct ArticleNew {
+    pub user_id: i32,
     pub category: String,
     pub title: String,
     pub content: String,
+}
+
+#[derive(Deserialize,Serialize, Debug)]
+pub struct ArticleId {
+    pub article_id: i32,
 }

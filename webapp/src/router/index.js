@@ -18,11 +18,11 @@ export default new Router({
     { path: '/', name: 'home', component: Home },
     { path: '/a/wiki', name: 'wiki', component: Wiki },
     { path: '/a/more', name: 'more', component: More },
-    { path: '/a/article/1', name: 'article', component: Article },
+    { path: '/a/article/:id', name: 'article', component: Article },
     { path: '/a/new', name: 'new', component: New },
     { path: '/a/access', name: 'access', component: Access },
     { path: '/a/signup', name: 'signup', component: SignUp },
-    { path: '/a/user', name: 'user', component: Center },
+    { path: '/a/user/:id', name: 'user', component: Center },
     { path: '/a/about', name: 'about', component: About },
     { path: '*', name: 'notfound', component: NotFound }
   ]

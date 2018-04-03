@@ -3,11 +3,11 @@
       <mnav id="mnav"></mnav>
       <div id="content">
         <div id="user-center"><p>Uaer Center</p></div>
-        <p>Welcom user center.</p>
+        <p><strong>Welcom user center. you must login first to seen bellow user info!</strong></p>
         <p>email : {{ email }}</p>
         <p>username ：{{ username }}</p>
         <p>created_time : {{ created_time }}</p>
-        <button id="submit" @click="home">Home</button><br/>
+        <button id="submit" v-if="username == ''" @click="login">Login</button><br/>
       </div>
     </div>
 </template>
@@ -29,6 +29,7 @@ export default {
     }
   },
   mounted: function() {
+      if (sessionStorage.getItem('token')){
         axios.get('http://localhost:8000/api/user_info', auth.getAuthHeader())
         .then((response) => {
             this.email =  response.data.current_user.email
@@ -40,11 +41,12 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+      }
   },
   methods: {
-    home() {
+    login() {
         window.location.reload ( true ); 
-        this.$router.push('/')
+        this.$router.push('/a/access')
     }
   }
 }

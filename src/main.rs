@@ -33,7 +33,7 @@ use model::db::DbExecutor;
 use utils::cors;
 use handler::index::{ State, home, path };
 use handler::auth::{ signup, signin };
-use api::article::{ article_list, article_new };
+use api::article::{ article,article_list, article_new };
 use api::user::user_info;
 
 fn main() {
@@ -70,6 +70,10 @@ fn main() {
             .resource("/api/user_info", |r| {
                 cors::options().register(r);
                 r.method(Method::GET).a(user_info);
+            })
+            .resource("/api/{article_id}", |r| {
+                cors::options().register(r);
+                r.method(Method::GET).a(article);
             })
             .handler("/", fs::StaticFiles::new("public", true)))
         .bind("127.0.0.1:8000").unwrap()

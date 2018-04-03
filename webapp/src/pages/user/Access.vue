@@ -48,13 +48,10 @@ export default {
           password: password
       })
       .then((response) => {
-        // console.log(response.data.token);
         sessionStorage.setItem('token',response.data.token);
-        // sessionStorage.setItem('user',response.data.signin_user);
-        sessionStorage.setItem('username',response.data.signin_user.username);
-        // console.log(response.data.message)
-        // console.log(response.data.signin_user)
-        // console.log(sessionStorage.getItem('username'))
+        sessionStorage.setItem('signin_user',JSON.stringify(response.data.signin_user));
+        console.log(response.data.token);
+        console.log(JSON.parse(sessionStorage.getItem('signin_user')).usernmae)
         window.location.reload ( true ); 
         this.$router.push('/')
       })

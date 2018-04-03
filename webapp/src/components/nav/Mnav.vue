@@ -12,7 +12,7 @@
       <div id="rnav">
           <li v-if="username"> 
             <a href="/a/new" title="new">new</a>
-            <router-link to="/a/user" title="username">{{username}}</router-link>
+            <a :href="'/a/user/' + user_id" title="username">{{username}}</a>
             <a href="/a/access" title="Logout" @click="logout">logout</a>
           </li>
           <li v-else > 
@@ -28,13 +28,22 @@ export default {
   name: 'Mnav',
   data: function () {
     return { 
-      username: sessionStorage.getItem('username')
+      username: '',
+      user_id: ''
+    }
+  },
+  mounted: function() {
+    if (sessionStorage.getItem('signin_user')){
+        let user_name =  JSON.parse(sessionStorage.getItem('signin_user')).username
+        let user_id =  JSON.parse(sessionStorage.getItem('signin_user')).id
+        this.username = user_name
+        this.user_id = user_id
     }
   },
   methods: {
     logout() {
      sessionStorage.removeItem('token')
-     sessionStorage.removeItem('username')
+     sessionStorage.removeItem('signin_user')
      this.$router.push('/a/access')
     }
   }

@@ -17,7 +17,6 @@ impl Message for UserInfo {
 pub fn user_info(req: HttpRequest<State>) -> Box<Future<Item=HttpResponse, Error=Error>> {
         let dbexecutor = req.state().db.clone();
         let header_token = req.headers().get("Authorization");
-        
         let token = header_token.unwrap().clone();
         let token = token.to_str();
         match token {

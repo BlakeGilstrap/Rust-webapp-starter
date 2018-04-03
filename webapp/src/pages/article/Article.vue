@@ -1,14 +1,14 @@
 <template>
-    <div id="article">
+    <div id="article_id">
         <mnav id="mnav"></mnav>
                     <div id="content">
                         <div id="title">
-                            <h3> {{ article_id.title }} </h3> 
-                            <span id="info">{{ article_id.category }}</span> • 
-                            <span id="info"><router-link to="/user/article.uid">{{ article_id.username }}</router-link></span> • 
-                            <span id="info">{{ article_id.created_at }}</span>  
+                            <h3> title : {{ article.title }} </h3> 
+                            <span id="info">category : {{ article.category }}</span>  
+                            <span id="info"><a :href="'/a/user/' + article.user_id">user_id : {{ article.user_id }}</a></span>  
+                            <span id="info">created_at : {{ article.created_at }}</span>  
                         </div>
-                        <div id="content">{{ article_id.cooked }}</div>
+                        <div id="body">content : {{ article.body }}</div>
                     </div>
     </div>
 </template>
@@ -23,14 +23,16 @@ export default {
     },
     data: function() {
         return {
-            article_id: ''
+            article: ''
         }
     },
     mounted: function() {
-    axios.get('http://localhost:8000/api/article_id')
+    // let article_id = this.$route.params.id
+    // console.log(article_id)
+    axios.get("http://localhost:8000/api/" + this.$route.params.id)
       .then((response) => {
-        this.article_id = response.data.article_id
-        console.log(response.data.article_id)
+        this.article = response.data.article
+        console.log(response.data.article)
       })
       .catch((e) => {
         console.log(e)
@@ -40,6 +42,10 @@ export default {
 </script>
 
 <style scoped>
+#body {
+    margin: 2rem auto;
+}
+
 @media only screen and (max-width: 600px) {
     #content  {
       margin: 0.5rem auto;

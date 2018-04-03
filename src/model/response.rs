@@ -1,5 +1,6 @@
 use model::user::User;
 use model::article::Article;
+use std::time::SystemTime;
 
 #[derive(Deserialize,Serialize, Debug)]
 pub struct Msgs {
@@ -27,4 +28,11 @@ pub struct UserInfoMsgs {
     pub status: i32,
     pub message : String,
     pub current_user: User,
+}
+
+#[derive(Deserialize,Serialize, Debug)]
+pub struct ArticleMsgs {
+    pub status: i32,
+    pub message : String,
+    pub article : Article,
 }
